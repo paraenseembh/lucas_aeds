@@ -1,0 +1,1 @@
+matricula: 1404192	comparacoes: 5791	movimentacoes: 3181	tempo execucao: 0.000180 s
