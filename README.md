@@ -4,7 +4,7 @@ Repositório de códigos da matéria de Algoritmos e Estruturas de Dados II
 ## Minhas notas
 | Prova     | Prática | Teórica | Total |
 |-----------|---------|---------|-------|
-| Prova 1   |         |         |       |
+| Prova 1   |    1    |   4.8   |  5.8  |
 | Prova 2   |         |         |       |
 | Prova 3   |         |         |       |
 | TP        |   --    |   --    |       |
