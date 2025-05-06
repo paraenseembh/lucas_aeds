@@ -122,7 +122,7 @@ class Show {
     public void ler(String showId) {
         try {
             // Abre o arquivo
-            File file = new File("./tmp/disneyplus.csv");
+            File file = new File("/tmp/disneyplus.csv");
             Scanner scanner = new Scanner(file, "UTF-8");
             
             // Pula a linha de cabeçalho
@@ -271,7 +271,7 @@ class Show {
      * Método para imprimir o registro no formato especificado
      */
     public void imprimir() {
-        System.out.print("=> " + this.show_id + " ## " + this.type + " ## " + this.title + " ## " + this.director + " ## [");
+        System.out.print("=> " + this.show_id + " ## " + this.title + " ## " + this.type + " ## " + this.director + " ## [");
         
         // Imprime o elenco
         for (int i = 0; i < this.cast.length; i++) {
@@ -351,8 +351,8 @@ public class TP02Q03 {
         
         // Criação do arquivo de log, com numero de matricula
         try {
-            FileWriter fw = new FileWriter("14004192_sequencial.txt");
-            fw.write("12345\t" + (fim - inicio) / 1000.0 + "\t" + numComparacoes[0]);
+            FileWriter fw = new FileWriter("matricula_sequencial.txt");
+            fw.write("1404192\t" + (fim - inicio) / 1000.0 + "\t" + numComparacoes[0]);
             fw.close();
         } catch (Exception e) {
             System.out.println("Erro ao criar arquivo de log: " + e.getMessage());
