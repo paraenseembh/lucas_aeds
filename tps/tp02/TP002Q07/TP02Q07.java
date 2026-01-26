@@ -219,7 +219,7 @@
       * Imprime os dados do show no formato especificado
       */
      public void imprimir() {
-         System.out.print("=> " + show_id + " ## " + type + " ## " + title + " ## " + director + " ## ");
+         System.out.print("=> " + show_id + " ## " + title + " ## " + type + " ## " + director + " ## ");
          imprimirArray(elenco);
          System.out.print(" ## " + country + " ## " + date_added + " ## " + release_year + " ## " + 
                           rating + " ## " + duration + " ## ");

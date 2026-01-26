@@ -331,7 +331,7 @@
          }
          
          // Gera arquivo de log
-         gerarLog("1404192_heapsort.txt", comparacoes, movimentacoes, inicio, fim);
+         gerarLog("matricula_heapsort.txt", comparacoes, movimentacoes, inicio, fim);
          
          sc.close();
      }
