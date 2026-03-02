@@ -1,0 +1,335 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{mdframed}
+
+\geometry{margin=2.5cm}
+
+% --- Estilo dos blocos de código ---
+\lstdefinestyle{cstyle}{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    frame=single,
+    backgroundcolor=\color{gray!8},
+    breaklines=true,
+    tabsize=4,
+}
+
+\lstdefinestyle{javastyle}{
+    language=Java,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{purple}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    frame=single,
+    backgroundcolor=\color{purple!5},
+    breaklines=true,
+    tabsize=4,
+}
+
+% --- Caixa de resposta ---
+\newenvironment{resposta}{%
+    \begin{mdframed}[linecolor=black!30, backgroundcolor=white,
+                     innertopmargin=10pt, innerbottommargin=30pt,
+                     skipabove=6pt]
+    \textbf{Resposta:}\\[4pt]
+}{%
+    \end{mdframed}
+}
+
+% -------------------------------------------------------
+\title{\textbf{Lista de Exercícios}\\[6pt]
+       \large Transformação de Código em Notação de Somatório}
+\author{Lucas Rafael Pessoa do Nascimento}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+    \textit{Para cada exercício, analise o(s) laço(s) do código e expresse o número\\
+    total de operações (comparações e/ou atribuições) como um somatório.\\
+    Sempre que possível, calcule a forma fechada e indique a complexidade assintótica.}
+\end{center}
+
+\bigskip
+
+% =========================================================
+\section*{Parte I — Aquecimento: Laços Simples}
+% =========================================================
+
+% ---------------------------------------------------------
+\subsection*{Exercício 1 — Loop simples em C}
+
+\begin{lstlisting}[style=cstyle]
+void imprime(int n) {
+    int i;
+    for (i = 0; i < n; i++) {   // quantas vezes executa?
+        printf("%d\n", i);
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Escreva o somatório que conta o número de execuções do corpo do laço.
+    \item Calcule a forma fechada.
+\end{enumerate}
+
+\begin{resposta}
+\vspace{3cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 2 — Dois laços aninhados em Java}
+
+\begin{lstlisting}[style=javastyle]
+void pares(int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {   // quantas comparacoes?
+            System.out.println(i + ", " + j);
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Escreva o somatório duplo que representa o número total de iterações.
+    \item Simplifique para forma fechada e determine $\Theta(\;)$.
+\end{enumerate}
+
+\begin{resposta}
+\vspace{3cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 3 — Laço triangular em C}
+
+\begin{lstlisting}[style=cstyle]
+void triangular(int n) {
+    int i, j;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < i; j++) {   // limite interno depende de i
+            printf("(%d,%d)\n", i, j);
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Por que este caso é diferente do Exercício 2?
+    \item Escreva o somatório e calcule a forma fechada.
+    \item Compare o resultado com $\dfrac{n(n-1)}{2}$ — o que você observa?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{3.5cm}
+\end{resposta}
+
+\newpage
+% =========================================================
+\section*{Parte II — Algoritmos de Ordenação}
+% =========================================================
+
+% ---------------------------------------------------------
+\subsection*{Exercício 4 — Selection Sort em C}
+
+\begin{lstlisting}[style=cstyle]
+void selectionSort(int v[], int n) {
+    int i, j, min, tmp;
+    for (i = 0; i < n - 1; i++) {
+        min = i;
+        for (j = i + 1; j < n; j++) {   // comparacao: v[j] < v[min]
+            if (v[j] < v[min])
+                min = j;
+        }
+        tmp = v[min]; v[min] = v[i]; v[i] = tmp;
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Identifique a operação dominante (comparação na linha 6).
+    \item Escreva o somatório duplo que conta o número exato de comparações.
+    \item Calcule a forma fechada e determine $\Theta(\;)$.
+    \item O número de \textit{trocas} é sempre o mesmo? Expresse-o como somatório.
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 5 — Bubble Sort em Java}
+
+\begin{lstlisting}[style=javastyle]
+void bubbleSort(int[] v) {
+    int n = v.length;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - 1 - i; j++) {  // comparacao
+            if (v[j] > v[j + 1]) {
+                int tmp = v[j];
+                v[j] = v[j + 1];
+                v[j + 1] = tmp;
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item O limite do laço interno muda a cada iteração do externo. Escreva o somatório que reflete isso.
+    \item Calcule a forma fechada. O resultado é igual ao do Selection Sort?
+    \item No \textbf{melhor caso} (vetor já ordenado), quantas comparações são feitas? E no \textbf{pior caso}? Expresse ambos como somatórios.
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 6 — Insertion Sort em C}
+
+\begin{lstlisting}[style=cstyle]
+void insertionSort(int v[], int n) {
+    int i, j, chave;
+    for (i = 1; i < n; i++) {
+        chave = v[i];
+        j = i - 1;
+        while (j >= 0 && v[j] > chave) {   // comparacao
+            v[j + 1] = v[j];               // deslocamento
+            j--;
+        }
+        v[j + 1] = chave;
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item O número de iterações do \texttt{while} depende dos dados. Escreva o somatório para o \textbf{pior caso} (vetor em ordem decrescente).
+    \item Escreva o somatório para o \textbf{melhor caso} (vetor já ordenado).
+    \item Calcule as formas fechadas de ambos os casos e determine as complexidades.
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+\newpage
+% ---------------------------------------------------------
+\subsection*{Exercício 7 — Shell Sort em Java}
+
+\begin{lstlisting}[style=javastyle]
+void shellSort(int[] v) {
+    int n = v.length;
+    for (int gap = n / 2; gap > 0; gap /= 2) {       // gap: n/2, n/4, ...
+        for (int i = gap; i < n; i++) {
+            int tmp = v[i];
+            int j = i;
+            while (j >= gap && v[j - gap] > tmp) {   // comparacao
+                v[j] = v[j - gap];
+                j -= gap;
+            }
+            v[j] = tmp;
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Quantas vezes o laço externo (\texttt{gap}) executa em função de $n$? Expresse como somatório.
+    \item O Shell Sort é mais difícil de analisar exatamente. Para o pior caso com a sequência de gaps $\lfloor n/2^k \rfloor$, a complexidade é $O(n^2)$. Tente montar um somatório que justifique isso.
+    \item Por que o Shell Sort tende a ser mais rápido que o Insertion Sort na prática?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+% =========================================================
+\section*{Parte III — Desafio}
+% =========================================================
+
+% ---------------------------------------------------------
+\subsection*{Exercício 8 — Comparação entre algoritmos}
+
+Preencha a tabela abaixo com o somatório exato e a forma fechada para cada algoritmo, considerando o \textbf{pior caso}:
+
+\bigskip
+
+\begin{center}
+\renewcommand{\arraystretch}{2.5}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Algoritmo} & \textbf{Somatório} & \textbf{Forma Fechada} & $\Theta(\;)$ \\
+\hline
+Selection Sort & & & \\
+\hline
+Bubble Sort    & & & \\
+\hline
+Insertion Sort & & & \\
+\hline
+Shell Sort     & & & \\
+\hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+% ---------------------------------------------------------
+\subsection*{Exercício 9 — Código misterioso em C}
+
+Dado o código abaixo, \textbf{sem olhar o nome da variável}, determine o somatório e identifique qual algoritmo de ordenação está sendo representado:
+
+\begin{lstlisting}[style=cstyle]
+void misterio(int v[], int n) {
+    int i, j, x;
+    for (i = 0; i < n - 1; i++) {
+        x = i;
+        for (j = i + 1; j < n; j++)
+            if (v[j] < v[x]) x = j;
+        int tmp = v[x]; v[x] = v[i]; v[i] = tmp;
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Monte o somatório do número de comparações.
+    \item Calcule a forma fechada.
+    \item Qual algoritmo é este?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{3.5cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 10 — Crie seu próprio código}
+
+Escreva um trecho de código (em C ou Java) cujo número de operações seja descrito pelo somatório abaixo, e então verifique calculando a forma fechada:
+
+\[
+\sum_{i=1}^{n} \sum_{j=i}^{n} 1
+\]
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+\end{document}

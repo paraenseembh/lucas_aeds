@@ -1,0 +1,172 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{booktabs}
+
+\geometry{margin=2.5cm}
+
+\title{\textbf{Propriedades de Somatórios}}
+\author{Lucas Rafael Pessoa do Nascimento}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Definição}
+
+O somatório é uma notação compacta para representar a soma de uma sequência de termos:
+
+\[
+\sum_{i=m}^{n} f(i) = f(m) + f(m+1) + f(m+2) + \cdots + f(n)
+\]
+
+onde $i$ é o índice de somatório, $m$ é o limite inferior e $n$ é o limite superior.
+
+% -------------------------------------------------------
+\section{Propriedades Fundamentais}
+
+\subsection{Linearidade}
+
+\subsubsection*{Fator constante}
+Uma constante multiplicativa pode ser retirada do somatório:
+
+\[
+\sum_{i=m}^{n} c \cdot f(i) = c \sum_{i=m}^{n} f(i)
+\]
+
+\subsubsection*{Aditividade}
+A soma de duas funções pode ser separada em dois somatórios:
+
+\[
+\sum_{i=m}^{n} \bigl[f(i) + g(i)\bigr] = \sum_{i=m}^{n} f(i) + \sum_{i=m}^{n} g(i)
+\]
+
+\subsection{Somatório de Constante}
+Quando o termo não depende do índice:
+
+\[
+\sum_{i=m}^{n} c = c \cdot (n - m + 1)
+\]
+
+\subsection{Partição do Intervalo}
+Um somatório pode ser dividido em dois somatórios parciais, desde que $m \leq k < n$:
+
+\[
+\sum_{i=m}^{n} f(i) = \sum_{i=m}^{k} f(i) + \sum_{i=k+1}^{n} f(i)
+\]
+
+\subsection{Mudança de Índice}
+O índice pode ser deslocado sem alterar o valor:
+
+\[
+\sum_{i=m}^{n} f(i) = \sum_{j=m+c}^{n+c} f(j - c)
+\]
+
+\subsection{Inversão da Ordem}
+A ordem de somatório pode ser invertida:
+
+\[
+\sum_{i=m}^{n} f(i) = \sum_{i=m}^{n} f(m + n - i)
+\]
+
+% -------------------------------------------------------
+\section{Fórmulas Fechadas Importantes}
+
+\subsection{Soma dos $n$ primeiros inteiros positivos}
+
+\[
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\]
+
+\textbf{Exemplo:} $\displaystyle\sum_{i=1}^{5} i = 1 + 2 + 3 + 4 + 5 = 15 = \frac{5 \cdot 6}{2}$
+
+\subsection{Soma dos quadrados}
+
+\[
+\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
+\]
+
+\subsection{Soma dos cubos}
+
+\[
+\sum_{i=1}^{n} i^3 = \left[\frac{n(n+1)}{2}\right]^2
+\]
+
+\subsection{Progressão Geométrica (série geométrica finita)}
+Para $r \neq 1$:
+
+\[
+\sum_{i=0}^{n} r^i = \frac{r^{n+1} - 1}{r - 1}
+\]
+
+Caso especial com $r = 2$:
+
+\[
+\sum_{i=0}^{n} 2^i = 2^{n+1} - 1
+\]
+
+\subsection{Série Harmônica (aproximação)}
+
+\[
+\sum_{i=1}^{n} \frac{1}{i} \approx \ln n + \gamma
+\]
+
+onde $\gamma \approx 0{,}5772$ é a constante de Euler-Mascheroni.
+
+% -------------------------------------------------------
+\section{Somatórios Duplos}
+
+Um somatório duplo percorre duas variáveis independentes:
+
+\[
+\sum_{i=1}^{m} \sum_{j=1}^{n} f(i, j)
+\]
+
+\subsubsection*{Intercambialidade (limites independentes)}
+Quando os limites não dependem um do outro, a ordem pode ser trocada:
+
+\[
+\sum_{i=1}^{m} \sum_{j=1}^{n} f(i, j) = \sum_{j=1}^{n} \sum_{i=1}^{m} f(i, j)
+\]
+
+% -------------------------------------------------------
+\section{Aplicação em Análise de Algoritmos}
+
+Somatórios são essenciais para calcular a complexidade de algoritmos. Exemplos comuns:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Estrutura} & \textbf{Somatório} & \textbf{Complexidade} \\
+\midrule
+Loop simples de $1$ a $n$ & $\displaystyle\sum_{i=1}^{n} 1$ & $\Theta(n)$ \\[10pt]
+Loop com trabalho $i$ & $\displaystyle\sum_{i=1}^{n} i$ & $\Theta(n^2)$ \\[10pt]
+Loop dividindo por 2 & $\displaystyle\sum_{i=0}^{\log n} 1$ & $\Theta(\log n)$ \\[10pt]
+Dois loops aninhados & $\displaystyle\sum_{i=1}^{n}\sum_{j=1}^{i} 1$ & $\Theta(n^2)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% -------------------------------------------------------
+\section{Resumo das Propriedades}
+
+\[
+\sum_{i=m}^{n} c \cdot f(i) = c \sum_{i=m}^{n} f(i)
+\qquad
+\sum_{i=m}^{n}[f(i)\pm g(i)] = \sum_{i=m}^{n}f(i) \pm \sum_{i=m}^{n}g(i)
+\]
+
+\[
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\qquad
+\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
+\qquad
+\sum_{i=0}^{n} r^i = \frac{r^{n+1}-1}{r-1}
+\]
+
+\end{document}
