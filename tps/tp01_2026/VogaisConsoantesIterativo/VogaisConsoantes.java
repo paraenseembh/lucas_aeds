@@ -1,32 +1,59 @@
 public class VogaisConsoantes {
 
-    // 1. Mudamos para 'boolean' (true/false real) e 'static' para rodar no main
-    private static boolean somenteVogais(String s) {
-        // 2. Erro corrigido: 'length()' com 'th' e parênteses. O tipo deve ser int.
-        int n = s.length(); 
-        
-        // 3. Transformamos em minúsculo para não precisar testar 'A', 'E', etc.
-        s = s.toLowerCase();
+    static boolean ehVogal(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
 
-        for (int i = 0; i < n; i++) {
-            char caractere = s.charAt(i); // 4. Erro corrigido: charAt é um método (), não array []
+    static String somenteVogais(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char c = (char)(s.charAt(i) + (s.charAt(i) >= 'A' && s.charAt(i) <= 'Z' ? 32 : 0));
+            if (c < 'a' || c > 'z' || !ehVogal(c)) return "NAO";
+        }
+        return "SIM";
+    }
 
-            // Se encontrarmos QUALQUER coisa que NÃO seja vogal, já retornamos false
-            if (!(caractere == 'a' || caractere == 'e' || caractere == 'i' || caractere == 'o' || caractere == 'u')) {
-                return false; 
+    static String somenteConsoantes(String s) {
+        if (s.isEmpty()) return "NAO";
+        for (int i = 0; i < s.length(); i++) {
+            char c = (char)(s.charAt(i) + (s.charAt(i) >= 'A' && s.charAt(i) <= 'Z' ? 32 : 0));
+            if (c < 'a' || c > 'z' || ehVogal(c)) return "NAO";
+        }
+        return "SIM";
+    }
+
+    static String ehInt(String s) {
+        if (s.isEmpty()) return "NAO";
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) < '0' || s.charAt(i) > '9') return "NAO";
+        }
+        return "SIM";
+    }
+
+    static String ehReal(String s) {
+        boolean temPonto = false, temDigito = false;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                temDigito = true;
+            } else if (c == '.') {
+                if (temPonto) return "NAO";
+                temPonto = true;
+            } else {
+                return "NAO";
             }
         }
+        return (temDigito && temPonto) ? "SIM" : "NAO";
+    }
 
-        // Se o loop terminar sem retornar false, significa que tudo é vogal
-        return true;
+    static boolean ehFim(String s) {
+        return s.equals("FIM");
     }
 
     public static void main(String[] args) {
-        String teste = "aeiou";
-        if (somenteVogais(teste)) {
-            System.out.println("A string contém apenas vogais!");
-        } else {
-            System.out.println("A string contém consoantes ou outros caracteres.");
+        String linha = MyIO.readLine();
+        while (!ehFim(linha)) {
+            MyIO.println(somenteVogais(linha) + " " + somenteConsoantes(linha) + " " + ehInt(linha) + " " + ehReal(linha));
+            linha = MyIO.readLine();
         }
     }
 }

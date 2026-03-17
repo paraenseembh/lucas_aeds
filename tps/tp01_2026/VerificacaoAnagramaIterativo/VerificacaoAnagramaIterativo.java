@@ -1,92 +1,59 @@
-public class VerificacaoAnagramaIterativo{
-    
-    public static boolean saoAnagramas(String str1, String str2) {
-        // Se as strings tiverem tamanhos diferentes, não podem ser anagramas
-        if (str1.length() != str2.length()) {
-            return false;
-        }
-        
-        // Usando um array maior para acomodar caracteres Unicode
-        // Ou podemos focar apenas nas letras do alfabeto
-        int[] contador = new int[65536]; // Cobre todo o Basic Multilingual Plane do Unicode
-        
-        // Incrementando contadores para primeira string
-        for (int i = 0; i < str1.length(); i++) {
-            char c = str1.charAt(i);
-            if (c >= 'A' && c <= 'Z') {
-                c = (char)(c + 32); // Converte para minúscula
-            }
+public class VerificacaoAnagramaIterativo {
+
+    static boolean saoAnagramas(String s1, String s2) {
+        if (s1.length() != s2.length()) return false;
+
+        int[] contador = new int[65536];
+
+        for (int i = 0; i < s1.length(); i++) {
+            char c = s1.charAt(i);
+            if (c >= 'A' && c <= 'Z') c = (char)(c + 32);
             contador[c]++;
         }
-        
-        // Decrementando contadores para segunda string
-        for (int i = 0; i < str2.length(); i++) {
-            char c = str2.charAt(i);
-            if (c >= 'A' && c <= 'Z') {
-                c = (char)(c + 32); // Converte para minúscula
-            }
+
+        for (int i = 0; i < s2.length(); i++) {
+            char c = s2.charAt(i);
+            if (c >= 'A' && c <= 'Z') c = (char)(c + 32);
             contador[c]--;
         }
-        
-        // Verificando se todos os contadores estão em zero
+
         for (int i = 0; i < contador.length; i++) {
-            if (contador[i] != 0) {
-                return false;
-            }
+            if (contador[i] != 0) return false;
         }
-        
+
         return true;
     }
 
-    public static boolean stop(String input) {
-        return input.equals("FIM");
+    static boolean ehFim(String s) {
+        return s.equals("FIM");
     }
-    
+
     public static void main(String[] args) {
-      
-        String linha = "";
-        
-       do {
-            linha = MyIO.readString();
-            
-            if (!stop(linha)) {
-                // Encontrar o delimitador e separar as strings manualmente
-                String str1 = "";
-                String str2 = "";
-                boolean encontrouDelimitador = false;
-                
-                for (int i = 0; i < linha.length(); i++) {
-                    char c = linha.charAt(i);
-                    
-                    // Verificar se estamos no delimitador " - "
-                    if (!encontrouDelimitador && c == ' ' && i + 2 < linha.length() && 
-                        linha.charAt(i + 1) == '-' && linha.charAt(i + 2) == ' ') {
-                        encontrouDelimitador = true;
-                        i += 2; // Pular " - "
-                        continue;
-                    }
-                    
-                    // Adicionar caractere à string apropriada
-                    if (!encontrouDelimitador) {
-                        str1 += c;
-                    } else {
-                        str2 += c;
-                    }
+        String linha = MyIO.readLine();
+
+        while (!ehFim(linha)) {
+            String s1 = "", s2 = "";
+            boolean achouDelimitador = false;
+
+            for (int i = 0; i < linha.length(); i++) {
+                char c = linha.charAt(i);
+
+                if (!achouDelimitador && c == ' ' && i + 2 < linha.length()
+                        && linha.charAt(i + 1) == '-' && linha.charAt(i + 2) == ' ') {
+                    achouDelimitador = true;
+                    i += 2;
+                    continue;
                 }
-                
-                if (encontrouDelimitador) {
-                    if (saoAnagramas(str1, str2)) {
-                        System.out.println("SIM");
-                    } else {
-                        System.out.println("NÃO");
-                    }
-                }
+
+                if (!achouDelimitador) s1 += c;
+                else s2 += c;
             }
-        } while (!stop(linha));
-        
-        
+
+            if (achouDelimitador) {
+                MyIO.println(saoAnagramas(s1, s2) ? "SIM" : "NÃO");
+            }
+
+            linha = MyIO.readLine();
+        }
     }
 }
-
-
-
