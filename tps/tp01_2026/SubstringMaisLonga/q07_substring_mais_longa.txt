@@ -1,0 +1,12 @@
+Questão 7 - Substring Mais Longa Sem Repetição (ITERATIVO)
+============================================================
+
+Crie um método ITERATIVO em C que recebe uma string como parâmetro e retorna o comprimento da
+substring mais longa sem caracteres repetidos.
+
+Na saída padrão, para cada linha de entrada, escreva uma linha de saída com o comprimento
+da substring mais longa sem repetição.
+
+EXEMPLO:
+  Entrada: abcabcbb
+  Saída:   3   (correspondendo à substring "abc")

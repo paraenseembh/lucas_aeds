@@ -1,0 +1,17 @@
+Questão 12 - Soma de Dígitos (RECURSIVO)
+==========================================
+
+Refaça a questão Soma de Dígitos (Questão 5) em Java de forma RECURSIVA.
+
+---
+[Enunciado original - Questão 5]
+
+Crie um método RECURSIVO que recebe um número inteiro como parâmetro e retorna a soma de
+seus dígitos.
+
+Na saída padrão, para cada linha de entrada, escreva uma linha de saída com o resultado da
+soma dos dígitos.
+
+EXEMPLO:
+  Entrada: 12345
+  Saída:   15
