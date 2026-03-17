@@ -1,0 +1,19 @@
+Questão 8 - Validação de Senha (ITERATIVO)
+============================================
+
+Crie um método ITERATIVO que recebe uma string como parâmetro e retorna true se a string é
+uma senha válida, ou false caso contrário.
+
+Uma senha é considerada válida se contém:
+  - Pelo menos 8 caracteres
+  - Pelo menos uma letra maiúscula
+  - Pelo menos uma letra minúscula
+  - Pelo menos um número
+  - Pelo menos um caractere especial (por exemplo: !, @, #, etc.)
+
+Na saída padrão, para cada linha de entrada, escreva uma linha de saída com SIM/NÃO indicando
+se a senha é válida.
+
+EXEMPLO:
+  Entrada: Senha123!
+  Saída:   SIM

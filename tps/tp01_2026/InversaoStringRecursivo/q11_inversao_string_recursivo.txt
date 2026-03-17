@@ -1,0 +1,15 @@
+Questão 11 - Inversão de String (RECURSIVO)
+=============================================
+
+Refaça a questão Inversão de String em Java (Questão 4) de forma RECURSIVA.
+
+---
+[Enunciado original - Questão 4]
+
+Crie um método RECURSIVO que recebe uma string como parâmetro e retorna a string invertida.
+
+Na saída padrão, para cada linha de entrada, escreva uma linha de saída com a string invertida.
+
+EXEMPLO:
+  Entrada: abcde
+  Saída:   edcba

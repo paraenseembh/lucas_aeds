@@ -1,0 +1,29 @@
+Questão 3 - Is (ITERATIVO)
+===========================
+
+Crie um método ITERATIVO que recebe uma string e retorna true se a mesma é composta somente
+por vogais.
+
+Crie outro método ITERATIVO que recebe uma string e retorna true se a mesma é composta somente
+por consoantes.
+
+Crie um terceiro método ITERATIVO que recebe uma string e retorna true se a mesma corresponde
+a um número inteiro.
+
+Crie um quarto método ITERATIVO que recebe uma string e retorna true se a mesma corresponde a
+um número real.
+
+Na saída padrão, para cada linha de entrada, escreva outra de saída da seguinte forma:
+
+    X1 X2 X3 X4
+
+onde cada Xi é um booleano indicando se a entrada é:
+  X1 - composta somente por vogais
+  X2 - composta somente por consoantes
+  X3 - um número inteiro
+  X4 - um número real
+
+Se Xi for verdadeiro, seu valor será SIM; caso contrário, NÃO.
+
+Observação: Para contar as letras, consoantes e vogais, desconsidere acentos e cedilha.
+Considere somente os caracteres cujos códigos ASCII estiverem entre 'A' e 'Z' ou 'a' e 'z'.
