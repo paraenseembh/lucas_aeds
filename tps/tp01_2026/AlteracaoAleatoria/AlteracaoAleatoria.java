@@ -1,29 +1,30 @@
 import java.util.Random;
 
+class AlteracaoAleatoria {
 
-public class AlteracaoAleatoria {
+    static char sorteiaLetra(Random r) {
+        return (char)('a' + r.nextInt(26));
+    }
 
-char c = 'b';
+    static String alterar(String s, char de, char para) {
+        String resultado = "";
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            resultado += (c == de) ? para : c;
+        }
+        return resultado;
+    }
 
-public void EhConsoante (char c) {
-c = Character.toLowerCase(c); // Normaliza para minúsculo
+    public static void main(String[] args) {
+        Random r = new Random();
+        r.setSeed(4);
+        char letra1 = sorteiaLetra(r);
+        char letra2 = sorteiaLetra(r);
 
-if (Character.isLetter(c) && !(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')) {
-    System.out.println(c + " é uma consoante.");
-} else {
-    System.out.println(c + " não é uma consoante.");
+        String linha = MyIO.readLine();
+        while (!linha.equals("FIM")) {
+            MyIO.println(alterar(linha, letra1, letra2));
+            linha = MyIO.readLine();
+        }
+    }
 }
-
-}
-public static void main (String[] args){
-
-Random gerador = new Random( ) ;
-gerador.setSeed(4);
-System.out.println((char)('a' + (Math.abs(gerador.nextInt()) % 26)));
-
-}
-
-
-}
-
-
