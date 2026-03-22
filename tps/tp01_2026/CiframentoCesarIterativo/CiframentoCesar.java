@@ -1,4 +1,3 @@
-import java.io.*;
 import java.nio.charset.Charset;
 
 class CiframentoCesar {
@@ -22,13 +21,12 @@ class CiframentoCesar {
         return sb.toString();
     }
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
-        PrintStream out = new PrintStream(System.out, true, "UTF-8");
-        String linha = br.readLine();
-        while (linha != null && !linha.equals("FIM")) {
-            out.println(cifrar(linha));
-            linha = br.readLine();
+    public static void main(String[] args) {
+        MyIO.setCharset("UTF-8");
+        String linha = MyIO.readLine();
+        while (!linha.equals("FIM")) {
+            MyIO.println(cifrar(linha));
+            linha = MyIO.readLine();
         }
     }
 }
