@@ -1,36 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-// Retorna o comprimento em bytes do caractere UTF-8 que começa em c
-int utf8Len(unsigned char c) {
-    if (c < 0x80) return 1;
-    if (c < 0xE0) return 2;
-    if (c < 0xF0) return 3;
-    return 4;
-}
-
 void inverter(char *s) {
     int n = strlen(s);
-    // Coleta índices de início de cada caractere UTF-8
-    int starts[10000];
-    int nchars = 0;
-    for (int i = 0; i < n; ) {
-        starts[nchars++] = i;
-        i += utf8Len((unsigned char)s[i]);
+    for (int i = 0; i < n / 2; i++) {
+        char tmp = s[i];
+        s[i] = s[n - 1 - i];
+        s[n - 1 - i] = tmp;
     }
-    starts[nchars] = n;
-
-    // Monta string invertida
-    char resultado[10000];
-    int pos = 0;
-    for (int i = nchars - 1; i >= 0; i--) {
-        int len = starts[i + 1] - starts[i];
-        for (int j = 0; j < len; j++) {
-            resultado[pos++] = s[starts[i] + j];
-        }
-    }
-    resultado[pos] = '\0';
-    strcpy(s, resultado);
 }
 
 int main() {
