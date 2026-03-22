@@ -1,6 +1,6 @@
 import java.nio.charset.Charset;
 
-class CiframentoCesar {
+class CiframentoCesarRecursivo {
 
     static Charset CP1252 = Charset.forName("windows-1252");
 
@@ -13,19 +13,16 @@ class CiframentoCesar {
         return (char)(c + 3);
     }
 
-    static String cifrar(String s) {
-        StringBuilder sb = new StringBuilder(s.length());
-        for (int i = 0; i < s.length(); i++) {
-            sb.append(cifrarChar(s.charAt(i)));
-        }
-        return sb.toString();
+    static String cifrar(String s, int i) {
+        if (i == s.length()) return "";
+        return cifrarChar(s.charAt(i)) + cifrar(s, i + 1);
     }
 
     public static void main(String[] args) {
         MyIO.setCharset("UTF-8");
         String linha = MyIO.readLine();
         while (!linha.equals("FIM")) {
-            MyIO.println(cifrar(linha));
+            MyIO.println(cifrar(linha, 0));
             linha = MyIO.readLine();
         }
     }
