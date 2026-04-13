@@ -58,7 +58,7 @@ public class VogaisConsoantes {
 
     public static void main(String[] args) {
         String linha = MyIO.readLine();
-        while (linha != null && !linha.equals("FIM")) {
+        while (!linha.equals("FIM")) {
             MyIO.println(somenteVogais(linha) + " " + somenteConsoantes(linha)
                        + " " + ehInt(linha) + " " + ehReal(linha));
             linha = MyIO.readLine();

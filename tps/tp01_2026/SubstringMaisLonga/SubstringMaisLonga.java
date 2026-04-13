@@ -15,7 +15,7 @@ public class SubstringMaisLonga {
 
     public static void main(String[] args) {
         String linha = MyIO.readLine();
-        while (linha != null && !linha.equals("FIM")) {
+        while (!linha.equals("FIM")) {
             MyIO.println(maiorSubstring(linha));
             linha = MyIO.readLine();
         }

@@ -22,7 +22,7 @@ class AlteracaoAleatoria {
         char letra2 = sorteiaLetra(r);
 
         String linha = MyIO.readLine();
-        while (linha != null && !linha.equals("FIM")) {
+        while (!linha.equals("FIM")) {
             MyIO.println(alterar(linha, letra1, letra2));
             linha = MyIO.readLine();
         }

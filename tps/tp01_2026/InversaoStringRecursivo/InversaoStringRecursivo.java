@@ -7,7 +7,7 @@ public class InversaoStringRecursivo {
 
     public static void main(String[] args) {
         String linha = MyIO.readLine();
-        while (linha != null && !linha.equals("FIM")) {
+        while (!linha.equals("FIM")) {
             MyIO.println(inverter(linha));
             linha = MyIO.readLine();
         }

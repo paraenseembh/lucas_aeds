@@ -15,7 +15,7 @@ public class ValidacaoSenha {
 
     public static void main(String[] args) {
         String linha = MyIO.readLine();
-        while (linha != null && !linha.equals("FIM")) {
+        while (!linha.equals("FIM")) {
             MyIO.println(senhaValida(linha) ? "SIM" : "NAO");
             linha = MyIO.readLine();
         }

@@ -9,7 +9,7 @@ public class SomaDigitosRecursivo {
 
     public static void main(String[] args) {
         String linha = MyIO.readLine();
-        while (linha != null && !linha.equals("FIM")) {
+        while (!linha.equals("FIM")) {
             MyIO.println(somaDigitos(linha, 0));
             linha = MyIO.readLine();
         }

@@ -21,7 +21,7 @@ class CiframentoCesarRecursivo {
     public static void main(String[] args) {
         MyIO.setCharset("UTF-8");
         String linha = MyIO.readLine();
-        while (linha != null && !linha.equals("FIM")) {
+        while (!linha.equals("FIM")) {
             MyIO.println(cifrar(linha, 0));
             linha = MyIO.readLine();
         }
