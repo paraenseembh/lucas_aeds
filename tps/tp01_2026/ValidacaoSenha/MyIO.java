@@ -177,7 +177,9 @@ class MyIO {
       char tmp;
       try{
          do{
-            tmp = (char)in.read();
+            int b = in.read();
+            if(b == -1) return null;
+            tmp = (char)b;
             if(tmp != '\n' && tmp != 13){
                s += tmp;
             }
