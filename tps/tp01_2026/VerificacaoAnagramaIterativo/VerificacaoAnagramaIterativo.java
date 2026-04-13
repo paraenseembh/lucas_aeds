@@ -32,25 +32,11 @@ public class VerificacaoAnagramaIterativo {
         String linha = MyIO.readLine();
 
         while (!ehFim(linha)) {
-            String s1 = "", s2 = "";
-            boolean achouDelimitador = false;
-
-            for (int i = 0; i < linha.length(); i++) {
-                char c = linha.charAt(i);
-
-                if (!achouDelimitador && c == ' ' && i + 2 < linha.length()
-                        && linha.charAt(i + 1) == '-' && linha.charAt(i + 2) == ' ') {
-                    achouDelimitador = true;
-                    i += 2;
-                    continue;
-                }
-
-                if (!achouDelimitador) s1 += c;
-                else s2 += c;
-            }
-
-            if (achouDelimitador) {
-                MyIO.println(saoAnagramas(s1, s2) ? "SIM" : "NÃO");
+            int espaco = linha.indexOf(' ');
+            if (espaco != -1) {
+                String s1 = linha.substring(0, espaco);
+                String s2 = linha.substring(espaco + 1);
+                MyIO.println(saoAnagramas(s1, s2) ? "SIM" : "NAO");
             }
 
             linha = MyIO.readLine();

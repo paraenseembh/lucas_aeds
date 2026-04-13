@@ -28,18 +28,8 @@ int main() {
         if (len > 0 && linha[len - 1] == '\n') linha[--len] = '\0';
         if (strcmp(linha, "FIM") == 0) break;
         char s1[5000], s2[5000];
-        int found = 0;
-        for (int i = 0; i + 2 < len; i++) {
-            if (linha[i] == ' ' && linha[i+1] == '-' && linha[i+2] == ' ') {
-                strncpy(s1, linha, i);
-                s1[i] = '\0';
-                strcpy(s2, linha + i + 3);
-                found = 1;
-                break;
-            }
-        }
-        if (found) {
-            printf(saoAnagramas(s1, s2) ? "SIM\n" : "N\xc3O\n");
+        if (sscanf(linha, "%s %s", s1, s2) == 2) {
+            printf(saoAnagramas(s1, s2) ? "SIM\n" : "NAO\n");
         }
     }
     return 0;
