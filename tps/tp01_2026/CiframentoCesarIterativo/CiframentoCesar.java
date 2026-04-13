@@ -24,7 +24,7 @@ class CiframentoCesar {
     public static void main(String[] args) {
         MyIO.setCharset("UTF-8");
         String linha = MyIO.readLine();
-        while (!linha.equals("FIM")) {
+        while (linha != null && !linha.equals("FIM")) {
             MyIO.println(cifrar(linha));
             linha = MyIO.readLine();
         }
