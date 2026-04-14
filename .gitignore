@@ -1,0 +1,5 @@
+*.class
+*.o
+a.out
+tps/tp01_2026/VerificacaoAnagramaIterativo/verifica
+tps/tp01_2026/SubstringMaisLonga/sub
