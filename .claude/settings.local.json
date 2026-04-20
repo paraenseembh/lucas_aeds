@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep *)",
+      "Bash(cp restaurantes.csv /tmp/restaurantes.csv)",
+      "Bash(javac \"TP02Q01 - Modelagem em Java/Q1.java\")",
+      "Bash(java Q1)",
+      "Read(//tmp/**)",
+      "Bash(xxd /tmp/q5.txt)",
+      "Bash(xxd \"c:/Users/lucas/Documents/lucas_aeds/tps/tp02_2026/TP02Q05 - Pesquisa Sequencial em Java/pub.out\")"
+    ]
+  }
+}
