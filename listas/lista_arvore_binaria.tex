@@ -1,0 +1,467 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{mdframed}
+\usepackage{tikz}
+\usetikzlibrary{trees, arrows.meta}
+
+\geometry{margin=2.5cm}
+
+% --- Estilo dos blocos de código ---
+\lstdefinestyle{cstyle}{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    frame=single,
+    backgroundcolor=\color{gray!8},
+    breaklines=true,
+    tabsize=4,
+}
+
+\lstdefinestyle{javastyle}{
+    language=Java,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{purple}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    frame=single,
+    backgroundcolor=\color{purple!5},
+    breaklines=true,
+    tabsize=4,
+}
+
+% --- Caixa de resposta ---
+\newenvironment{resposta}{%
+    \begin{mdframed}[linecolor=black!30, backgroundcolor=white,
+                     innertopmargin=10pt, innerbottommargin=30pt,
+                     skipabove=6pt]
+    \textbf{Resposta:}\\[4pt]
+}{%
+    \end{mdframed}
+}
+
+% --- Estilo dos nós da árvore ---
+\tikzset{
+    no/.style={circle, draw=black, thick, minimum size=8mm, inner sep=1pt},
+    nulo/.style={draw=none, fill=none},
+}
+
+% -------------------------------------------------------
+\title{\textbf{Lista de Exercícios}\\[6pt]
+       \large Árvore Binária e Árvore Binária de Busca}
+\author{Lucas Rafael Pessoa do Nascimento}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+    \textit{Os exercícios cobrem implementação, percurso, análise de complexidade\\
+    e propriedades de árvores binárias e árvores binárias de busca (ABB).\\
+    Utilize as structs/classes apresentadas em cada seção como base.}
+\end{center}
+
+\bigskip
+
+% =========================================================
+\section*{Estruturas de Referência}
+% =========================================================
+
+\textbf{Em C:}
+\begin{lstlisting}[style=cstyle]
+typedef struct No {
+    int valor;
+    struct No *esq, *dir;
+} No;
+
+No* novoNo(int v) {
+    No *n = (No*) malloc(sizeof(No));
+    n->valor = v;
+    n->esq = n->dir = NULL;
+    return n;
+}
+\end{lstlisting}
+
+\textbf{Em Java:}
+\begin{lstlisting}[style=javastyle]
+class No {
+    int valor;
+    No esq, dir;
+    No(int v) { valor = v; esq = dir = null; }
+}
+\end{lstlisting}
+
+\bigskip
+
+% =========================================================
+\section*{Parte I — Conceitos Básicos e Percursos}
+% =========================================================
+
+% ---------------------------------------------------------
+\subsection*{Exercício 1 — Contar nós (recursivo em C)}
+
+\begin{lstlisting}[style=cstyle]
+int contarNos(No *raiz) {
+    if (raiz == NULL) return 0;
+    return 1 + contarNos(raiz->esq) + contarNos(raiz->dir);
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Explique o caso base e o passo recursivo.
+    \item Qual é a complexidade de tempo em função do número de nós $n$? Justifique com um somatório.
+    \item Reescreva a função de forma \textbf{iterativa} usando uma pilha (ou fila).
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 2 — Altura da árvore (recursivo em Java)}
+
+\begin{lstlisting}[style=javastyle]
+int altura(No raiz) {
+    if (raiz == null) return -1;
+    return 1 + Math.max(altura(raiz.esq), altura(raiz.dir));
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Por que o caso base retorna $-1$ (e não $0$)?
+    \item Para a árvore abaixo, calcule manualmente a altura:
+
+\begin{center}
+\begin{tikzpicture}[level distance=1.2cm,
+    level 1/.style={sibling distance=4cm},
+    level 2/.style={sibling distance=2cm},
+    level 3/.style={sibling distance=1.2cm}]
+  \node[no]{10}
+    child { node[no]{5}
+        child { node[no]{3}
+            child { node[no]{1} }
+            child[missing]{}
+        }
+        child { node[no]{7} }
+    }
+    child { node[no]{15}
+        child[missing]{}
+        child { node[no]{20} }
+    };
+\end{tikzpicture}
+\end{center}
+
+    \item No \textbf{pior caso} (árvore degenerada/lista), qual é a altura? E no \textbf{melhor caso} (árvore completa com $n$ nós)?
+    \item Qual a complexidade de tempo de \texttt{altura()}?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 3 — Percursos: Pré-ordem, In-ordem e Pós-ordem}
+
+Dada a árvore do Exercício 2, escreva a sequência de valores visitados em cada percurso:
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Pré-ordem} (raiz, esquerda, direita)
+    \item \textbf{In-ordem} (esquerda, raiz, direita)
+    \item \textbf{Pós-ordem} (esquerda, direita, raiz)
+    \item Implemente o percurso \textbf{in-ordem} em Java de forma \textbf{iterativa} usando uma pilha (\texttt{Stack<No>}).
+    \item Qual percurso produz os valores em ordem crescente em uma ABB? Por quê?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{5cm}
+\end{resposta}
+
+\newpage
+% ---------------------------------------------------------
+\subsection*{Exercício 4 — Contar folhas (C)}
+
+\begin{lstlisting}[style=cstyle]
+int contarFolhas(No *raiz) {
+    if (raiz == NULL) return 0;
+    if (raiz->esq == NULL && raiz->dir == NULL) return 1;
+    return contarFolhas(raiz->esq) + contarFolhas(raiz->dir);
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Quantas folhas tem a árvore do Exercício 2? Verifique com a função.
+    \item Uma árvore completa com $k$ níveis tem quantas folhas? Expresse como potência de 2.
+    \item Escreva uma função \texttt{contarInternosC} que conta apenas os nós internos (não-folhas).
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+% =========================================================
+\section*{Parte II — Árvore Binária de Busca (ABB)}
+% =========================================================
+
+% ---------------------------------------------------------
+\subsection*{Exercício 5 — Busca em ABB (Java)}
+
+\begin{lstlisting}[style=javastyle]
+boolean buscar(No raiz, int x) {
+    if (raiz == null) return false;
+    if (x == raiz.valor) return true;
+    if (x < raiz.valor) return buscar(raiz.esq, x);
+    return buscar(raiz.dir, x);
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Trace a busca por $7$ na árvore do Exercício 2. Quais nós são visitados?
+    \item Qual é a complexidade da busca no \textbf{melhor caso}? E no \textbf{pior caso}?
+    \item Reescreva \texttt{buscar} de forma \textbf{iterativa} (sem recursão).
+    \item Por que a busca em ABB é mais eficiente que a busca linear em um vetor não ordenado?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4.5cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 6 — Inserção em ABB (C)}
+
+\begin{lstlisting}[style=cstyle]
+No* inserir(No *raiz, int v) {
+    if (raiz == NULL) return novoNo(v);
+    if (v < raiz->valor)
+        raiz->esq = inserir(raiz->esq, v);
+    else if (v > raiz->valor)
+        raiz->dir = inserir(raiz->dir, v);
+    return raiz;
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Insira os valores $\{10, 5, 15, 3, 7, 20, 1\}$ nessa ordem. Desenhe a ABB resultante.
+    \item Agora insira $\{1, 3, 5, 7, 10, 15, 20\}$ nessa ordem. O que acontece com a árvore?
+    \item Compare as alturas das duas árvores. O que isso implica para a complexidade das operações?
+    \item A função acima ignora duplicatas. Modifique-a para \textbf{contar} quantas vezes cada valor foi inserido (armazene um campo \texttt{freq} no nó).
+\end{enumerate}
+
+\begin{resposta}
+\vspace{5cm}
+\end{resposta}
+
+\newpage
+% ---------------------------------------------------------
+\subsection*{Exercício 7 — Mínimo e Máximo em ABB (Java)}
+
+\begin{lstlisting}[style=javastyle]
+int minimo(No raiz) {
+    if (raiz.esq == null) return raiz.valor;
+    return minimo(raiz.esq);
+}
+
+int maximo(No raiz) {
+    if (raiz.dir == null) return raiz.valor;
+    return maximo(raiz.dir);
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Explique por que o mínimo está sempre à esquerda e o máximo à direita.
+    \item Reescreva ambas as funções de forma \textbf{iterativa}.
+    \item Em uma ABB com $n$ nós balanceada, quantas comparações são feitas para encontrar o mínimo? E em uma ABB degenerada?
+    \item O mínimo de uma ABB corresponde a qual posição no percurso in-ordem?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 8 — Verificar se é ABB (C)}
+
+A função abaixo verifica se uma árvore binária é uma ABB válida:
+
+\begin{lstlisting}[style=cstyle]
+int ehABB(No *raiz, int min, int max) {
+    if (raiz == NULL) return 1;
+    if (raiz->valor <= min || raiz->valor >= max) return 0;
+    return ehABB(raiz->esq, min, raiz->valor) &&
+           ehABB(raiz->dir, raiz->valor, max);
+}
+/* Chamada inicial: ehABB(raiz, INT_MIN, INT_MAX) */
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Por que simplesmente comparar \texttt{raiz->valor} com \texttt{raiz->esq->valor} e \texttt{raiz->dir->valor} não é suficiente? Dê um contraexemplo.
+    \item Trace a execução para a árvore abaixo e determine se é uma ABB válida:
+
+\begin{center}
+\begin{tikzpicture}[level distance=1.2cm,
+    level 1/.style={sibling distance=3.5cm},
+    level 2/.style={sibling distance=1.8cm}]
+  \node[no]{8}
+    child { node[no]{3}
+        child { node[no]{1} }
+        child { node[no]{6} }
+    }
+    child { node[no]{12}
+        child { node[no]{5} }
+        child { node[no]{14} }
+    };
+\end{tikzpicture}
+\end{center}
+
+    \item Qual é a complexidade de tempo de \texttt{ehABB}?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{4.5cm}
+\end{resposta}
+
+% =========================================================
+\section*{Parte III — Análise de Complexidade e Desafios}
+% =========================================================
+
+% ---------------------------------------------------------
+\subsection*{Exercício 9 — Complexidade das operações em ABB}
+
+Preencha a tabela considerando uma ABB com $n$ nós:
+
+\bigskip
+\begin{center}
+\renewcommand{\arraystretch}{2.2}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Operação} & \textbf{Melhor caso} & \textbf{Caso médio} & \textbf{Pior caso} \\
+\hline
+Busca        & & & \\
+\hline
+Inserção     & & & \\
+\hline
+Mínimo/Máximo & & & \\
+\hline
+Percurso in-ordem & & & \\
+\hline
+Contar nós   & & & \\
+\hline
+Altura       & & & \\
+\hline
+\end{tabular}
+\end{center}
+
+\bigskip
+\begin{enumerate}[label=(\alph*)]
+    \item Quando o pior caso de busca e inserção é $O(n)$? Descreva a forma da árvore nessa situação.
+    \item O que é uma árvore \textbf{balanceada} e por que ela garante $O(\log n)$?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{3cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 10 — Percurso por nível (BFS em Java)}
+
+\begin{lstlisting}[style=javastyle]
+void porNivel(No raiz) {
+    if (raiz == null) return;
+    Queue<No> fila = new LinkedList<>();
+    fila.add(raiz);
+    while (!fila.isEmpty()) {
+        No atual = fila.poll();
+        System.out.print(atual.valor + " ");
+        if (atual.esq != null) fila.add(atual.esq);
+        if (atual.dir != null) fila.add(atual.dir);
+    }
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Trace a execução para a árvore do Exercício 2. Qual é a ordem de saída?
+    \item Por que este algoritmo usa uma \textbf{fila} e não uma \textbf{pilha}? O que mudaria se usasse pilha?
+    \item Qual é a complexidade de tempo e espaço de \texttt{porNivel}?
+    \item Modifique \texttt{porNivel} para imprimir cada nível em uma linha separada.
+\end{enumerate}
+
+\begin{resposta}
+\vspace{5cm}
+\end{resposta}
+
+% ---------------------------------------------------------
+\subsection*{Exercício 11 — Remoção em ABB (C)}
+
+A remoção em ABB tem três casos. Implemente a função:
+
+\begin{lstlisting}[style=cstyle]
+No* remover(No *raiz, int v) {
+    if (raiz == NULL) return NULL;
+    if (v < raiz->valor)
+        raiz->esq = remover(raiz->esq, v);
+    else if (v > raiz->valor)
+        raiz->dir = remover(raiz->dir, v);
+    else {
+        /* Caso 1: folha */
+        if (raiz->esq == NULL && raiz->dir == NULL) {
+            free(raiz); return NULL;
+        }
+        /* Caso 2: um filho */
+        if (raiz->esq == NULL) {
+            No *tmp = raiz->dir; free(raiz); return tmp;
+        }
+        if (raiz->dir == NULL) {
+            No *tmp = raiz->esq; free(raiz); return tmp;
+        }
+        /* Caso 3: dois filhos — substitui pelo minimo da subarvore direita */
+        No *suc = raiz->dir;
+        while (suc->esq != NULL) suc = suc->esq;
+        raiz->valor = suc->valor;
+        raiz->dir = remover(raiz->dir, suc->valor);
+    }
+    return raiz;
+}
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Descreva os três casos de remoção com suas próprias palavras.
+    \item Na árvore do Exercício 2, remova o nó $5$. Desenhe o resultado.
+    \item Na árvore do Exercício 2, remova o nó $10$ (raiz). Qual nó assume o lugar da raiz? Desenhe.
+    \item Qual é a complexidade da remoção no pior caso?
+\end{enumerate}
+
+\begin{resposta}
+\vspace{5cm}
+\end{resposta}
+
+\newpage
+% ---------------------------------------------------------
+\subsection*{Exercício 12 — Desafio: Espelhamento e Simetria}
+
+\begin{enumerate}[label=(\alph*)]
+    \item Escreva uma função recursiva em Java \texttt{espelhar(No raiz)} que inverte uma árvore binária (troca todos os filhos esquerdos com os direitos).
+    \item Escreva uma função \texttt{ehSimetrica(No raiz)} que retorna \texttt{true} se a árvore é espelho de si mesma (palíndromo estrutural). Use uma função auxiliar \texttt{espelhos(No a, No b)}.
+    \item Aplique \texttt{espelhar} à árvore do Exercício 2 e desenhe o resultado.
+    \item Determine a complexidade de \texttt{espelhar} e de \texttt{ehSimetrica}.
+\end{enumerate}
+
+\begin{resposta}
+\vspace{6cm}
+\end{resposta}
+
+\end{document}
