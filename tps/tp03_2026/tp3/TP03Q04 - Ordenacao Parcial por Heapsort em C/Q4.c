@@ -107,35 +107,88 @@ void ler_csv(Colecao* col) {
 
 long long comparacoes = 0, movimentacoes = 0;
 
+/* Compare dates: returns <0 if a older, >0 if a newer */
 int compara_data(Restaurante* a, Restaurante* b) {
-    if (a->data_abertura.ano != b->data_abertura.ano) return a->data_abertura.ano - b->data_abertura.ano;
-    if (a->data_abertura.mes != b->data_abertura.mes) return a->data_abertura.mes - b->data_abertura.mes;
-    if (a->data_abertura.dia != b->data_abertura.dia) return a->data_abertura.dia - b->data_abertura.dia;
-    return strcmp(a->nome, b->nome);
+    comparacoes++;
+    if (a->data_abertura.ano != b->data_abertura.ano)
+        return a->data_abertura.ano - b->data_abertura.ano;
+    if (a->data_abertura.mes != b->data_abertura.mes)
+        return a->data_abertura.mes - b->data_abertura.mes;
+    return a->data_abertura.dia - b->data_abertura.dia;
 }
 
-/* Max-heap heapify (by dataAbertura ascending = oldest at front after sort) */
-void heapify(Restaurante** arr, int n, int i) {
-    int maior = i;
-    int esq = 2*i+1, dir = 2*i+2;
-    if (esq < n) { comparacoes++; if (compara_data(arr[esq], arr[maior]) > 0) maior = esq; }
-    if (dir < n) { comparacoes++; if (compara_data(arr[dir], arr[maior]) > 0) maior = dir; }
-    if (maior != i) {
-        Restaurante* tmp = arr[i]; arr[i] = arr[maior]; arr[maior] = tmp;
-        movimentacoes += 3;
-        heapify(arr, n, maior);
+/* Sift up in max-heap (newest = root) */
+void sift_up(Restaurante** heap, int i) {
+    while (i > 0) {
+        int p = (i - 1) / 2;
+        if (compara_data(heap[p], heap[i]) < 0) {
+            Restaurante* tmp = heap[p]; heap[p] = heap[i]; heap[i] = tmp;
+            movimentacoes += 3;
+            i = p;
+        } else {
+            break;
+        }
     }
 }
 
-void heapsort_parcial(Restaurante** arr, int n) {
-    int k = n / 5;
-    /* Build max-heap */
-    for (int i = n/2-1; i >= 0; i--) heapify(arr, n, i);
-    /* Full sort: n-1 passes */
-    for (int i = n-1; i > 0; i--) {
-        Restaurante* tmp = arr[0]; arr[0] = arr[i]; arr[i] = tmp;
+/* Sift down in max-heap (newest = root) */
+void sift_down(Restaurante** heap, int i, int n) {
+    while (1) {
+        int lg = i, l = 2*i+1, r = 2*i+2;
+        if (l < n) { if (compara_data(heap[l], heap[lg]) > 0) lg = l; }
+        if (r < n) { if (compara_data(heap[r], heap[lg]) > 0) lg = r; }
+        if (lg == i) break;
+        Restaurante* tmp = heap[i]; heap[i] = heap[lg]; heap[lg] = tmp;
         movimentacoes += 3;
-        heapify(arr, i, 0);
+        i = lg;
+    }
+}
+
+/*
+ * Partial heapsort ascending by data_abertura.
+ * Maintains a max-heap of size k = n/5 keeping the k oldest elements.
+ * Elements not in the k-oldest set go into remaining[] in encounter order.
+ * The k-oldest heap is sorted ascending (oldest first) and placed in arr[0..k-1].
+ */
+void heapsort_parcial(Restaurante** arr, int n, Restaurante** remaining, int* rem_size) {
+    int k = n / 5;
+    Restaurante* heap[MAX_REST];
+    int heap_size = 0;
+    *rem_size = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (heap_size < k) {
+            heap[heap_size] = arr[i];
+            movimentacoes++;
+            sift_up(heap, heap_size);
+            heap_size++;
+        } else {
+            if (compara_data(arr[i], heap[0]) < 0) {
+                /* arr[i] is older: replace heap root with arr[i], push old root to remaining */
+                remaining[(*rem_size)++] = heap[0];
+                heap[0] = arr[i];
+                movimentacoes += 2;
+                sift_down(heap, 0, k);
+            } else {
+                /* arr[i] is newer or equal: goes to remaining */
+                remaining[(*rem_size)++] = arr[i];
+                movimentacoes++;
+            }
+        }
+    }
+
+    /* Sort the k-oldest heap ascending using heapsort */
+    int size = heap_size;
+    for (int i = size - 1; i > 0; i--) {
+        Restaurante* tmp = heap[0]; heap[0] = heap[i]; heap[i] = tmp;
+        movimentacoes += 3;
+        sift_down(heap, 0, i);
+    }
+
+    /* Copy sorted heap to arr[0..k-1] */
+    for (int i = 0; i < heap_size; i++) {
+        arr[i] = heap[i];
+        movimentacoes++;
     }
 }
 
@@ -157,14 +210,22 @@ int main() {
         }
     }
 
+    Restaurante* remaining[MAX_REST];
+    int rem_size = 0;
+
     clock_t ini = clock();
-    heapsort_parcial(arr, n);
+    heapsort_parcial(arr, n, remaining, &rem_size);
     clock_t fim = clock();
     double tempo = (double)(fim - ini) / CLOCKS_PER_SEC * 1000.0;
 
+    int k = n / 5;
     char buf[500];
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < k; i++) {
         formatar_restaurante(arr[i], buf);
+        printf("%s\n", buf);
+    }
+    for (int i = 0; i < rem_size; i++) {
+        formatar_restaurante(remaining[i], buf);
         printf("%s\n", buf);
     }
 
