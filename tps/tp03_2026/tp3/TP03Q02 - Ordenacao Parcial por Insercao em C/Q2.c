@@ -110,10 +110,10 @@ long long comparacoes = 0, movimentacoes = 0;
 /* Partial insertion sort by cidade ascending, k = n/5 passes */
 void insercao_parcial(Restaurante** arr, int n) {
     int k = n / 5;
-    for (int i = 1; i <= k; i++) {
+    for (int i = 1; i < n; i++) {
         Restaurante* chave = arr[i];
         movimentacoes++;
-        int j = i - 1;
+        int j = (i - 1 < k) ? i - 1 : k - 1;
         while (j >= 0) {
             comparacoes++;
             if (strcmp(arr[j]->cidade, chave->cidade) > 0) {
