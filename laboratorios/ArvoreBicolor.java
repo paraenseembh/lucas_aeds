@@ -171,6 +171,29 @@ public class ArvoreBicolor {
         caminhamentoCentral(no.dir);
     }
 
+    // Impressão visual da árvore no terminal (rotacionada 90 graus, raiz à esquerda)
+    // Leitura: direito = cima, esquerdo = baixo
+    public void imprimir() {
+        if (raiz == null) {
+            System.out.println("(arvore vazia)");
+            return;
+        }
+        imprimir(raiz, "", true);
+    }
+
+    private void imprimir(No no, String prefixo, boolean ultimoFilho) {
+        if (no == null) return;
+
+        String prefixoFilho = prefixo + (ultimoFilho ? "       " : "|      ");
+        imprimir(no.dir, prefixoFilho, true);
+
+        String conector = prefixo.isEmpty() ? "-- " : (ultimoFilho ? "+-- " : "+-- ");
+        String cor = no.cor ? "[P]" : "[B]"; // [P]=preto/colorido  [B]=branco/sem cor
+        System.out.println(prefixo + conector + cor + " " + no.chave);
+
+        imprimir(no.esq, prefixoFilho, false);
+    }
+
     // Programa de validação
     public static void main(String[] args) {
         ArvoreBicolor arvore = new ArvoreBicolor();
@@ -183,7 +206,10 @@ public class ArvoreBicolor {
         }
         System.out.println();
 
-        System.out.println("Caminhamento central:");
+        System.out.println("\nArvore visual ([P]=preto/colorido  [B]=branco/sem cor):");
+        arvore.imprimir();
+
+        System.out.println("\nCaminhamento central:");
         arvore.caminhamentoCentral();
 
         System.out.println("Esperado:");
