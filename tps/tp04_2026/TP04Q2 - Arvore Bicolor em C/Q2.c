@@ -240,8 +240,8 @@ int main(void) {
     inorder(raiz);
 
     /* log */
-    FILE *log = fopen(MATRICULA "_rbt.txt", "w");
-    if (log) { fprintf(log, "%s\t%d\t%d\t%.2fms\n", MATRICULA, 0, 0, 0.0); fclose(log); }
+    FILE *log = fopen(MATRICULA "_arvore_bicolor.txt", "w");
+    if (log) { fprintf(log, "%s\t0\t0.00\n", MATRICULA); fclose(log); }
 
     return 0;
 }
